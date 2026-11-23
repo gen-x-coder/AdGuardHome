@@ -58,29 +58,39 @@ func categoryForRules(applied []*ResultRule, categories map[rulelist.APIID]Filte
 	return category
 }
 
+// reportingCategoryForLists classifies applied blocklist rules against the
+// current list configuration.  Caller must hold the filters read lock.
+// Security takes precedence over parental, which takes precedence over default.
+// Avoid allocating a temporary map in the DNS request hot path.
+func reportingCategoryForLists(applied []*ResultRule, lists []FilterYAML) FilterCategory {
+	result := CategoryDefault
+	for _, rule := range applied {
+		if rule == nil {
+			continue
+		}
+		for i := range lists {
+			if rulelist.APIID(lists[i].ID) != rule.FilterListID {
+				continue
+			}
+			switch lists[i].Category.Effective() {
+			case CategorySecurity:
+				return CategorySecurity
+			case CategoryParental:
+				result = CategoryParental
+			}
+			break
+		}
+	}
+	return result
+}
+
 // ReportingCategory returns the reporting category of applied blocklist rules.
 // It does not alter rule matching, blocking reasons, or DNS answers.
 func (d *DNSFilter) ReportingCategory(result *Result) FilterCategory {
-	if result == nil {
-		return CategoryDefault
-	}
-
-	if result.Reason != FilteredBlockList || len(result.Rules) == 0 {
+	if result == nil || result.Reason != FilteredBlockList || len(result.Rules) == 0 {
 		return CategoryDefault
 	}
 	d.conf.filtersMu.RLock()
 	defer d.conf.filtersMu.RUnlock()
-	categories := make(map[rulelist.APIID]FilterCategory, len(result.Rules))
-	for _, rule := range result.Rules {
-		if rule == nil {
-			continue
-		}
-		for _, list := range d.conf.Filters {
-			if rulelist.APIID(list.ID) == rule.FilterListID {
-				categories[rule.FilterListID] = list.Category.Effective()
-				break
-			}
-		}
-	}
-	return categoryForRules(result.Rules, categories)
+	return reportingCategoryForLists(result.Rules, d.conf.Filters)
 }
