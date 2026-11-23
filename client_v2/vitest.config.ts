@@ -8,7 +8,7 @@ import { getAliasesFromTsconfig } from './scripts/tsconfig-aliases.js';
 const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-    plugins: [solid()],
+    plugins: [solid({ hot: false })],
     resolve: {
         conditions: ['development', 'browser'],
         // Force Vite to use a single solid-js instance across all deps,
