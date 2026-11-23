@@ -1,4 +1,5 @@
 import path from 'path';
+import { fileURLToPath } from 'node:url';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import CopyPlugin from 'copy-webpack-plugin';
@@ -7,7 +8,7 @@ import { BUILD_ENVS } from './constants.js';
 import { getAliasesFromTsconfig } from './scripts/tsconfig-aliases.js';
 import { THEME_BOOTSTRAP_TEMPLATE_PARAMETERS } from './scripts/theme-bootstrap-template.js';
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const RESOURCES_PATH = __dirname;
 const ENTRY_MAIN = path.resolve(RESOURCES_PATH, 'src/index.tsx');
