@@ -51,6 +51,7 @@ describe('getFilteringStatus', () => {
 
         expect(filteringState.userRules).toBe('||a^\n||b^');
         expect(filteringState.filters[0]).toEqual({
+            category: 'default',
             id: 1,
             url: 'u',
             enabled: true,

@@ -7,6 +7,7 @@ import (
 
 	"github.com/AdguardTeam/AdGuardHome/internal/aghnet"
 	"github.com/AdguardTeam/AdGuardHome/internal/filtering"
+	"github.com/AdguardTeam/AdGuardHome/internal/filtering/rulelist"
 	"github.com/AdguardTeam/AdGuardHome/internal/querylog"
 	"github.com/AdguardTeam/AdGuardHome/internal/stats"
 	"github.com/AdguardTeam/dnsproxy/proxy"
@@ -237,6 +238,100 @@ func TestServer_ProcessQueryLogsAndStats(t *testing.T) {
 			assert.Equal(t, tc.wantLogProto, ql.lastParams.ClientProto)
 			assert.Equal(t, tc.wantStatClient, st.lastEntry.Client)
 			assert.Equal(t, tc.wantStatResult, st.lastEntry.Result)
+		})
+	}
+}
+
+func TestServer_ProcessQueryLogsAndStats_category(t *testing.T) {
+	f, err := filtering.New(&filtering.Config{
+		Logger:  testLogger,
+		DataDir: t.TempDir(),
+		Filters: []filtering.FilterYAML{{
+			URL:    "https://list1.example/",
+			Filter: filtering.Filter{ID: 1},
+		}, {
+			URL:      "https://list2.example/",
+			Category: filtering.CategorySecurity,
+			Filter:   filtering.Filter{ID: 2},
+		}, {
+			URL:      "https://list3.example/",
+			Category: filtering.CategoryParental,
+			Filter:   filtering.Filter{ID: 3},
+		}},
+	}, nil)
+	require.NoError(t, err)
+	t.Cleanup(f.Close)
+
+	testCases := []struct {
+		name   string
+		reason filtering.Reason
+		listID rulelist.APIID
+		want   stats.Result
+	}{{
+		name:   "default_list",
+		reason: filtering.FilteredBlockList,
+		listID: 1,
+		want:   stats.RFiltered,
+	}, {
+		name:   "security_list",
+		reason: filtering.FilteredBlockList,
+		listID: 2,
+		want:   stats.RSafeBrowsing,
+	}, {
+		name:   "parental_list",
+		reason: filtering.FilteredBlockList,
+		listID: 3,
+		want:   stats.RParental,
+	}, {
+		name:   "custom_rules",
+		reason: filtering.FilteredBlockList,
+		listID: rulelist.APIIDCustom,
+		want:   stats.RFiltered,
+	}, {
+		name:   "blocked_service",
+		reason: filtering.FilteredBlockedService,
+		listID: 2,
+		want:   stats.RFiltered,
+	}, {
+		name:   "allowlist",
+		reason: filtering.NotFilteredAllowList,
+		listID: 2,
+		want:   stats.RNotFiltered,
+	}}
+
+	for _, tc := range testCases {
+		t.Run(tc.name, func(t *testing.T) {
+			st := &testStats{}
+			srv := &Server{
+				baseLogger: testLogger,
+				logger:     testLogger,
+				queryLog:   &testQueryLog{},
+				stats:      st,
+				anonymizer: aghnet.NewIPMut(nil),
+				dnsFilter:  f,
+			}
+
+			dctx := &dnsContext{
+				proxyCtx: &proxy.DNSContext{
+					Proto: proxy.ProtoUDP,
+					Req: &dns.Msg{
+						Question: []dns.Question{{Name: "example.com."}},
+					},
+					Res:  &dns.Msg{},
+					Addr: testClientAddrPort,
+				},
+				startTime: time.Now(),
+				result: &filtering.Result{
+					Reason: tc.reason,
+					Rules:  []*filtering.ResultRule{{FilterListID: tc.listID}},
+				},
+			}
+
+			ctx := testutil.ContextWithTimeout(t, testTimeout)
+			code := srv.processQueryLogsAndStats(ctx, testLogger, dctx)
+			require.Equal(t, resultCodeSuccess, code)
+
+			assert.Equal(t, tc.want, st.lastEntry.Result)
 		})
 	}
 }

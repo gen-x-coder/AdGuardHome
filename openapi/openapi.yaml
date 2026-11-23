@@ -1517,12 +1517,7 @@
         'enabled':
           'type': 'boolean'
         'category':
-          'type': 'string'
-          'enum':
-          - 'default'
-          - 'security'
-          - 'parental'
-          'description': 'Reporting category for blocking lists; default if absent.'
+          '$ref': '#/components/schemas/FilterCategory'
         'id':
           'example': 1234
           'format': 'int64'
@@ -1570,6 +1565,15 @@
           'type': 'boolean'
         'interval':
           'type': 'integer'
+    'FilterCategory':
+      'type': 'string'
+      'description': >
+        Category used to attribute blocked requests to statistics.  Only
+        blocklists can have a category other than `default`.
+      'enum':
+      - 'default'
+      - 'security'
+      - 'parental'
     'FilterSetUrl':
       'type': 'object'
       'description': 'Filtering URL settings'
@@ -1589,9 +1593,7 @@
       - 'url'
       'properties':
         'category':
-          'type': 'string'
-          'enum': ['default', 'security', 'parental']
-          'description': 'Optional reporting category. Omission preserves the stored value.'
+          '$ref': '#/components/schemas/FilterCategory'
         'enabled':
           'type': 'boolean'
         'name':
@@ -2016,9 +2018,7 @@
       'description': '/add_url request data'
       'properties':
         'category':
-          'type': 'string'
-          'enum': ['default', 'security', 'parental']
-          'description': 'Optional reporting category for blocking lists.'
+          '$ref': '#/components/schemas/FilterCategory'
         'name':
           'type': 'string'
         'url':

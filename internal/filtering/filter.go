@@ -1,6 +1,7 @@
 package filtering
 
 import (
+	"cmp"
 	"context"
 	"fmt"
 	"io"
@@ -101,6 +102,9 @@ func (d *DNSFilter) filterSetProperties(
 	d.conf.filtersMu.Lock()
 	defer d.conf.filtersMu.Unlock()
 
+	// Registered before the rollback below, so that it runs after it.
+	defer d.updateReportingCategoriesLocked()
+
 	filters := d.conf.Filters
 	if isAllowlist {
 		filters = d.conf.WhitelistFilters
@@ -133,10 +137,8 @@ func (d *DNSFilter) filterSetProperties(
 	}(flt.URL, flt.Name, flt.Enabled, flt.LastUpdated, flt.RulesCount, flt.Category)
 
 	flt.Name = newList.Name
-	// An omitted category in an older API client preserves its previous value.
-	if newList.Category != "" {
-		flt.Category = newList.Category
-	}
+	// Keep the stored category if an older API client omits it.
+	flt.Category = cmp.Or(newList.Category, flt.Category)
 
 	if flt.URL != newList.URL {
 		if d.filterExistsLocked(newList.URL) {
@@ -221,6 +223,8 @@ func (d *DNSFilter) filterAdd(flt FilterYAML) (err error) {
 	} else {
 		d.conf.Filters = append(d.conf.Filters, flt)
 	}
+
+	d.updateReportingCategoriesLocked()
 
 	return nil
 }

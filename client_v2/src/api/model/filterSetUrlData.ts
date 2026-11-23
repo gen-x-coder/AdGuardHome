@@ -1,9 +1,11 @@
+import type { FilterCategory } from './filterCategory';
+
 /**
  * Filter update data
  */
 export interface FilterSetUrlData {
+    category?: FilterCategory;
     enabled: boolean;
-    category?: 'default' | 'security' | 'parental';
     name: string;
     url: string;
 }

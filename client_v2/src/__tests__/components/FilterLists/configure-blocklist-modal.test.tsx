@@ -1,3 +1,4 @@
+import { For } from "solid-js";
 import { fireEvent, render, screen } from '@solidjs/testing-library';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
@@ -10,6 +11,32 @@ import { copyInDom } from 'panel/__tests__/helpers/copy';
 // here and expensive to build in jsdom.
 vi.mock('panel/components/FilterLists/blocks/ConfigureBlocklistModal/blocks/FiltersList', () => ({
     FiltersList: () => <div />,
+}));
+
+// Unit-test the modal's category wiring separately from Ark UI's pointer handling.
+// The real Select component has its own tests.
+vi.mock('panel/common/controls/Select', () => ({
+    Select: (props: {
+        inputId?: string;
+        options: { value: string; label: string }[];
+        value?: { value: string };
+        onChange: (option: { value: string; label: string }) => void;
+    }) => (
+        <select
+            id={props.inputId}
+            value={props.value?.value}
+            onChange={(event) => {
+                const selected = props.options.find(
+                    (option) => option.value === event.currentTarget.value,
+                );
+                if (selected) props.onChange(selected);
+            }}
+        >
+            <For each={props.options}>{(option) => (
+                <option value={option.value}>{option.label}</option>
+            )}</For>
+        </select>
+    ),
 }));
 
 const mocks = vi.hoisted(() => ({
@@ -59,7 +86,12 @@ const openAddBlocklistManualTab = () => {
 };
 
 const openEditBlocklistModal = (
-    filterToEdit: { name: string; url: string; enabled?: boolean; category?: 'default' | 'security' | 'parental' } = blocklist,
+    filterToEdit: {
+        name: string;
+        url: string;
+        enabled?: boolean;
+        category?: 'default' | 'security' | 'parental';
+    } = blocklist,
 ) => {
     openModal(MODAL_TYPE.EDIT_BLOCKLIST);
     render(() => (
@@ -187,7 +219,9 @@ describe('ConfigureBlocklistModal', () => {
         openAddBlocklistManualTab();
         typeInto(copyInDom('name_label'), blocklist.name);
         typeInto(copyInDom('blocklist_url_file_path'), blocklist.url);
-        fireEvent.change(screen.getByLabelText('Category'), { target: { value: 'security' } });
+        fireEvent.change(screen.getByLabelText(copyInDom('blocklist_stats_category')), {
+            target: { value: 'security' },
+        });
         fireEvent.click(screen.getByRole('button', { name: copyInDom('add') }));
         await vi.waitFor(() =>
             expect(mocks.apiAddURL).toHaveBeenCalledWith({
@@ -216,5 +250,4 @@ describe('ConfigureBlocklistModal', () => {
             }),
         );
     });
-
 });

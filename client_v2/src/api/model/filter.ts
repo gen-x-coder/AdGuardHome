@@ -1,9 +1,11 @@
+import type { FilterCategory } from './filterCategory';
+
 /**
  * Filter subscription info
  */
 export interface Filter {
     enabled: boolean;
-    category?: 'default' | 'security' | 'parental';
+    category?: FilterCategory;
     id: number;
     last_updated?: string;
     name: string;

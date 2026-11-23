@@ -4,6 +4,8 @@
 
 ## v1.0.0: API changes (NOTE: Not released yet)
 
+- Added an optional `category` property to DNS filter list API objects, accepting `default`, `security`, or `parental`.
+
 - Requirements are clarified for `GET /control/querylog`. Minimum, maximum, and default values for `offset` and `limit` query parameters were added.
 
 - The following deprecated HTTP APIs:

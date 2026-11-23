@@ -254,6 +254,7 @@ func (d *DNSFilter) handleFilteringRemoveURL(w http.ResponseWriter, r *http.Requ
 		}
 
 		*filters = slices.Delete(*filters, delIdx, delIdx+1)
+		d.updateReportingCategoriesLocked()
 
 		d.logger.InfoContext(ctx, "deleted filter", "id", deleted.ID)
 	}()

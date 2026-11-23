@@ -62,6 +62,7 @@ describe('normalizeFilters', () => {
             ]),
         ).toStrictEqual([
             {
+                category: 'default',
                 id: 1,
                 url: 'http://example.com/list.txt',
                 enabled: true,

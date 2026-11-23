@@ -171,15 +171,7 @@ func (s *Server) updateStats(dctx *dnsContext, clientIP string, processingTime t
 	case filtering.FilteredSafeSearch:
 		e.Result = stats.RSafeSearch
 	case filtering.FilteredBlockList:
-		e.Result = stats.RFiltered
-		if s.dnsFilter != nil {
-			switch s.dnsFilter.ReportingCategory(dctx.result) {
-			case filtering.CategorySecurity:
-				e.Result = stats.RSafeBrowsing
-			case filtering.CategoryParental:
-				e.Result = stats.RParental
-			}
-		}
+		e.Result = s.blockListStatsResult(dctx.result)
 	case
 		filtering.FilteredInvalid,
 		filtering.FilteredBlockedService:
@@ -187,4 +179,22 @@ func (s *Server) updateStats(dctx *dnsContext, clientIP string, processingTime t
 	}
 
 	s.stats.Update(e)
+}
+
+// blockListStatsResult returns the statistics result for res, which must have
+// the [filtering.FilteredBlockList] reason, based on the reporting categories
+// of the blocklists of the applied rules.
+func (s *Server) blockListStatsResult(res *filtering.Result) (r stats.Result) {
+	if s.dnsFilter == nil {
+		return stats.RFiltered
+	}
+
+	switch s.dnsFilter.ReportingCategory(res) {
+	case filtering.CategorySecurity:
+		return stats.RSafeBrowsing
+	case filtering.CategoryParental:
+		return stats.RParental
+	default:
+		return stats.RFiltered
+	}
 }

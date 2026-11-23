@@ -258,6 +258,11 @@ type DNSFilter struct {
 	// logger is used for logging the filtering process.
 	logger *slog.Logger
 
+	// reportingCats contains the categories of the categorized blocklists.
+	// The map is never modified after it has been stored, so the DNS request
+	// path doesn't need conf.filtersMu.  It is nil if there are none.
+	reportingCats atomic.Pointer[reportingCategories]
+
 	// idGen is used to generate IDs for package urlfilter.
 	idGen *idGenerator
 
@@ -1057,6 +1062,10 @@ func New(c *Config, blockFilters []Filter) (d *DNSFilter, err error) {
 
 	d.idGen.fix(d.conf.Filters)
 	d.idGen.fix(d.conf.WhitelistFilters)
+
+	d.resetInvalidCategories(ctx, d.conf.Filters, false)
+	d.resetInvalidCategories(ctx, d.conf.WhitelistFilters, true)
+	d.updateReportingCategoriesLocked()
 
 	return d, nil
 }

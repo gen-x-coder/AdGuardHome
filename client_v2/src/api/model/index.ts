@@ -51,6 +51,7 @@ export * from './dnsInfo200';
 export * from './dnsQuestion';
 export * from './error';
 export * from './filter';
+export * from './filterCategory';
 export * from './filterCheckHostResponse';
 export * from './filterConfig';
 export * from './filteringCheckHostParams';
