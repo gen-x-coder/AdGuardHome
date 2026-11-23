@@ -170,8 +170,17 @@ func (s *Server) updateStats(dctx *dnsContext, clientIP string, processingTime t
 		e.Result = stats.RParental
 	case filtering.FilteredSafeSearch:
 		e.Result = stats.RSafeSearch
+	case filtering.FilteredBlockList:
+		e.Result = stats.RFiltered
+		if s.dnsFilter != nil {
+			switch s.dnsFilter.ReportingCategory(dctx.result) {
+			case filtering.CategorySecurity:
+				e.Result = stats.RSafeBrowsing
+			case filtering.CategoryParental:
+				e.Result = stats.RParental
+			}
+		}
 	case
-		filtering.FilteredBlockList,
 		filtering.FilteredInvalid,
 		filtering.FilteredBlockedService:
 		e.Result = stats.RFiltered

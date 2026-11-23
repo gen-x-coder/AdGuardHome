@@ -32,6 +32,8 @@ const filterDir = "filters"
 // TODO(e.burkov):  Investigate if the field ordering is important.
 type FilterYAML struct {
 	Enabled bool
+	// Category is used for reporting and never changes DNS filtering decisions.
+	Category FilterCategory `yaml:"category,omitempty"`
 	// TODO(m.kazantsev):  Refactor.
 	URL         string    // URL or a file path
 	Name        string    `yaml:"name"`
@@ -119,17 +121,22 @@ func (d *DNSFilter) filterSetProperties(
 		"filter_url", flt.URL,
 	)
 
-	defer func(oldURL, oldName string, oldEnabled bool, oldUpdated time.Time, oldRulesCount int) {
+	defer func(oldURL, oldName string, oldEnabled bool, oldUpdated time.Time, oldRulesCount int, oldCategory FilterCategory) {
 		if err != nil {
 			flt.URL = oldURL
 			flt.Name = oldName
 			flt.Enabled = oldEnabled
 			flt.LastUpdated = oldUpdated
 			flt.RulesCount = oldRulesCount
+			flt.Category = oldCategory
 		}
-	}(flt.URL, flt.Name, flt.Enabled, flt.LastUpdated, flt.RulesCount)
+	}(flt.URL, flt.Name, flt.Enabled, flt.LastUpdated, flt.RulesCount, flt.Category)
 
 	flt.Name = newList.Name
+	// An omitted category in an older API client preserves its previous value.
+	if newList.Category != "" {
+		flt.Category = newList.Category
+	}
 
 	if flt.URL != newList.URL {
 		if d.filterExistsLocked(newList.URL) {

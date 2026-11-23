@@ -1516,6 +1516,13 @@
       'properties':
         'enabled':
           'type': 'boolean'
+        'category':
+          'type': 'string'
+          'enum':
+          - 'default'
+          - 'security'
+          - 'parental'
+          'description': 'Reporting category for blocking lists; default if absent.'
         'id':
           'example': 1234
           'format': 'int64'
@@ -1581,6 +1588,10 @@
       - 'name'
       - 'url'
       'properties':
+        'category':
+          'type': 'string'
+          'enum': ['default', 'security', 'parental']
+          'description': 'Optional reporting category. Omission preserves the stored value.'
         'enabled':
           'type': 'boolean'
         'name':
@@ -2004,6 +2015,10 @@
       'type': 'object'
       'description': '/add_url request data'
       'properties':
+        'category':
+          'type': 'string'
+          'enum': ['default', 'security', 'parental']
+          'description': 'Optional reporting category for blocking lists.'
         'name':
           'type': 'string'
         'url':

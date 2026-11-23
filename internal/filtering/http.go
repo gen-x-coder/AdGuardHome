@@ -57,9 +57,10 @@ func (d *DNSFilter) validateFilterURL(urlStr string) (err error) {
 }
 
 type filterAddJSON struct {
-	Name      string `json:"name"`
-	URL       string `json:"url"`
-	Whitelist bool   `json:"whitelist"`
+	Name      string         `json:"name"`
+	URL       string         `json:"url"`
+	Whitelist bool           `json:"whitelist"`
+	Category  FilterCategory `json:"category,omitempty"`
 }
 
 func (d *DNSFilter) handleFilteringAddURL(w http.ResponseWriter, r *http.Request) {
@@ -78,6 +79,13 @@ func (d *DNSFilter) handleFilteringAddURL(w http.ResponseWriter, r *http.Request
 			"Failed to parse request body json: %s",
 			err,
 		)
+
+		return
+	}
+
+	err = validateFilterCategory(fj.Category, fj.Whitelist)
+	if err != nil {
+		aghhttp.ErrorAndLog(ctx, l, r, w, http.StatusBadRequest, "invalid category: %s", err)
 
 		return
 	}
@@ -108,11 +116,12 @@ func (d *DNSFilter) handleFilteringAddURL(w http.ResponseWriter, r *http.Request
 
 	// Set necessary properties
 	filt := FilterYAML{
-		Enabled: true,
-		URL:     fj.URL,
-		Name:    fj.Name,
-		white:   fj.Whitelist,
-		ID:      d.idGen.next(),
+		Enabled:  true,
+		URL:      fj.URL,
+		Name:     fj.Name,
+		white:    fj.Whitelist,
+		Category: fj.Category,
+		ID:       d.idGen.next(),
 	}
 
 	// Download the filter contents
@@ -273,9 +282,10 @@ func (d *DNSFilter) handleFilteringRemoveURL(w http.ResponseWriter, r *http.Requ
 }
 
 type filterURLReqData struct {
-	Name    string `json:"name"`
-	URL     string `json:"url"`
-	Enabled bool   `json:"enabled"`
+	Name     string         `json:"name"`
+	URL      string         `json:"url"`
+	Enabled  bool           `json:"enabled"`
+	Category FilterCategory `json:"category,omitempty"`
 }
 
 type filterURLReq struct {
@@ -310,6 +320,13 @@ func (d *DNSFilter) handleFilteringSetURL(w http.ResponseWriter, r *http.Request
 		return
 	}
 
+	err = validateFilterCategory(fj.Data.Category, fj.Whitelist)
+	if err != nil {
+		aghhttp.ErrorAndLog(ctx, l, r, w, http.StatusBadRequest, "invalid category: %s", err)
+
+		return
+	}
+
 	err = d.validateFilterURL(fj.Data.URL)
 	if err != nil {
 		aghhttp.ErrorAndLog(ctx, l, r, w, http.StatusBadRequest, "invalid url: %s", err)
@@ -318,9 +335,10 @@ func (d *DNSFilter) handleFilteringSetURL(w http.ResponseWriter, r *http.Request
 	}
 
 	filt := FilterYAML{
-		Enabled: fj.Data.Enabled,
-		Name:    fj.Data.Name,
-		URL:     fj.Data.URL,
+		Enabled:  fj.Data.Enabled,
+		Name:     fj.Data.Name,
+		URL:      fj.Data.URL,
+		Category: fj.Data.Category,
 	}
 
 	restart, err := d.filterSetProperties(fj.URL, filt, fj.Whitelist)
@@ -396,9 +414,10 @@ func (d *DNSFilter) handleFilteringRefresh(w http.ResponseWriter, r *http.Reques
 }
 
 type filterJSON struct {
-	URL         string `json:"url"`
-	Name        string `json:"name"`
-	LastUpdated string `json:"last_updated,omitempty"`
+	Category    FilterCategory `json:"category"`
+	URL         string         `json:"url"`
+	Name        string         `json:"name"`
+	LastUpdated string         `json:"last_updated,omitempty"`
 
 	ID rulelist.APIID `json:"id"`
 
@@ -417,10 +436,11 @@ type filteringConfig struct {
 func filterToJSON(f FilterYAML) filterJSON {
 	fj := filterJSON{
 		// #nosec G115 -- The overflow is required for backwards compatibility.
-		ID:      rulelist.APIID(f.ID),
-		Enabled: f.Enabled,
-		URL:     f.URL,
-		Name:    f.Name,
+		ID:       rulelist.APIID(f.ID),
+		Enabled:  f.Enabled,
+		Category: f.Category.Effective(),
+		URL:      f.URL,
+		Name:     f.Name,
 		// #nosec G115 -- The number of rules must not be negative.
 		RulesCount: uint64(f.RulesCount),
 	}
