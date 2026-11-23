@@ -6,4 +6,5 @@ export interface AddUrlRequest {
     /** URL or an absolute path to the file containing filtering rules. */
     url?: string;
     whitelist?: boolean;
+    category?: 'default' | 'security' | 'parental';
 }

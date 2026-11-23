@@ -3,6 +3,7 @@
  */
 export interface Filter {
     enabled: boolean;
+    category?: 'default' | 'security' | 'parental';
     id: number;
     last_updated?: string;
     name: string;

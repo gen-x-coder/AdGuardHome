@@ -210,6 +210,7 @@ export const normalizeFilters = (filters: FilterStatus['filters']) =>
                   last_updated,
                   name = 'Default name',
                   rules_count = 0,
+                  category = 'default',
               } = filter;
 
               return {
@@ -219,6 +220,7 @@ export const normalizeFilters = (filters: FilterStatus['filters']) =>
                   lastUpdated: last_updated,
                   name,
                   rulesCount: rules_count,
+                  category,
               };
           })
         : [];
@@ -1041,6 +1043,7 @@ export const getSpecialFilterName = (filterId: number): string => {
 };
 
 export type Filter = {
+    category?: 'default' | 'security' | 'parental';
     enabled: boolean;
     id: number;
     lastUpdated: string;

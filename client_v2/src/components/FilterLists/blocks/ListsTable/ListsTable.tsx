@@ -25,6 +25,7 @@ type FilterToggleData = {
     name: string;
     url: string;
     enabled: boolean;
+    category?: 'default' | 'security' | 'parental';
 };
 
 type Props = {
@@ -68,7 +69,8 @@ export const ListsTable = (props: Props) => {
     });
 
     const handleToggle = (url: string, name: string, enabled: boolean) => {
-        props.toggleFilterList(url, { name, url, enabled: !enabled });
+        const filter = props.filters.find((item) => item.url === url);
+        props.toggleFilterList(url, { name, url, enabled: !enabled, category: filter?.category ?? 'default' });
     };
 
     const handleEdit = (url: string, name: string, enabled: boolean) => {
@@ -137,6 +139,23 @@ export const ListsTable = (props: Props) => {
                         >
                             <Icon icon="copy" color="green" />
                         </button>
+                    </div>
+                </div>
+            ),
+        },
+        {
+            key: 'category',
+            header: {
+                text: 'Category',
+                className: s.headerCell,
+            },
+            accessor: 'category',
+            sortable: true,
+            render: (value: string) => (
+                <div class={theme.table.cell}>
+                    <span class={theme.table.cellLabel}>Category</span>
+                    <div class={theme.table.cellValueText}>
+                        <span>{value || 'default'}</span>
                     </div>
                 </div>
             ),

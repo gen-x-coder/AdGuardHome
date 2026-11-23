@@ -267,10 +267,15 @@ export const toggleBlockingForClient = (type: BlockAction, domain: string, clien
     return toggleBlocking(type, domain, baseRule, baseUnblocking);
 };
 
-export const addFilter = async (url: string, name: string, whitelist: boolean) => {
+export const addFilter = async (
+    url: string,
+    name: string,
+    whitelist: boolean,
+    category: 'default' | 'security' | 'parental' = 'default',
+) => {
     setState('processingAddFilter', true);
     try {
-        await filteringAddURL({ url, name, whitelist });
+        await filteringAddURL({ url, name, whitelist, ...(whitelist ? {} : { category }) });
         setState('processingAddFilter', false);
         setState('isModalOpen', false);
         if (whitelist) {

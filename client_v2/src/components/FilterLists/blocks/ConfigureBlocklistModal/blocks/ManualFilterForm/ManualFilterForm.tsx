@@ -8,6 +8,8 @@ type Props = {
     class?: string;
     name: string;
     url: string;
+    category: 'default' | 'security' | 'parental';
+    onCategoryChange: (value: 'default' | 'security' | 'parental') => void;
     nameError?: string;
     urlError?: string;
     onNameChange: (value: string) => void;
@@ -46,6 +48,19 @@ export const ManualFilterForm = (props: Props) => (
                 size="large"
                 onCard
             />
+        </div>
+        <div class={theme.form.input}>
+            <label for="filters_category">Category</label>
+            <select
+                id="filters_category"
+                value={props.category}
+                onChange={(e) => props.onCategoryChange(e.currentTarget.value as 'default' | 'security' | 'parental')}
+                style={{ width: '100%', padding: '0.75rem' }}
+            >
+                <option value="default">Default — blocked by filters</option>
+                <option value="security">Security — blocked threats</option>
+                <option value="parental">Parental — blocked adult websites</option>
+            </select>
         </div>
     </div>
 );

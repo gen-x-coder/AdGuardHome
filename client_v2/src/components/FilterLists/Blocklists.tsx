@@ -26,6 +26,7 @@ export const Blocklists = () => {
         url: string;
         name: string;
         enabled?: boolean;
+        category?: 'default' | 'security' | 'parental';
     }>({
         url: '',
         name: '',
@@ -35,7 +36,7 @@ export const Blocklists = () => {
         getFilteringStatus();
     });
 
-    const toggleFilter = (url: string, data: { name: string; url: string; enabled: boolean }) => {
+    const toggleFilter = (url: string, data: { name: string; url: string; enabled: boolean; category?: 'default' | 'security' | 'parental' }) => {
         toggleFilterStatus(url, data, false);
     };
 
@@ -52,7 +53,8 @@ export const Blocklists = () => {
     };
 
     const openEditBlocklistModal = (url: string, name: string, enabled: boolean) => {
-        setCurrentFilter({ url, name, enabled });
+        const existing = filteringState.filters.find((filter) => filter.url === url);
+        setCurrentFilter({ url, name, enabled, category: existing?.category ?? 'default' });
         openModal(MODAL_TYPE.EDIT_BLOCKLIST);
     };
 

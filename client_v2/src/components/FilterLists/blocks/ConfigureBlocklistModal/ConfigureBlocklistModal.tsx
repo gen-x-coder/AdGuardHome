@@ -28,6 +28,7 @@ type FormValues = {
     name: string;
     url: string;
     enabled?: boolean;
+    category?: 'default' | 'security' | 'parental';
 };
 
 type ConfigureBlocklistModalIdType = 'ADD_BLOCKLIST' | 'EDIT_BLOCKLIST';
@@ -95,6 +96,7 @@ export const ConfigureBlocklistModal = (props: Props) => {
 
     const [name, setName] = createSignal('');
     const [url, setUrl] = createSignal('');
+    const [category, setCategory] = createSignal<'default' | 'security' | 'parental'>('default');
     const [nameError, setNameError] = createSignal<string | undefined>();
     const [urlError, setUrlError] = createSignal<string | undefined>();
 
@@ -109,6 +111,7 @@ export const ConfigureBlocklistModal = (props: Props) => {
     createEffect(() => {
         setName(props.filterToEdit?.name ?? '');
         setUrl(props.filterToEdit?.url ?? '');
+        setCategory(props.filterToEdit?.category ?? 'default');
         setNameError(undefined);
         setUrlError(undefined);
     });
@@ -144,6 +147,7 @@ export const ConfigureBlocklistModal = (props: Props) => {
     const resetForm = () => {
         setName('');
         setUrl('');
+        setCategory('default');
         setNameError(undefined);
         setUrlError(undefined);
     };
@@ -164,6 +168,7 @@ export const ConfigureBlocklistModal = (props: Props) => {
                     name: name(),
                     url: url(),
                     enabled: filterToEdit.enabled ?? true,
+                    category: category(),
                 },
                 false,
             );
@@ -178,7 +183,7 @@ export const ConfigureBlocklistModal = (props: Props) => {
                 return;
             }
 
-            await addFilter(url(), name(), false);
+            await addFilter(url(), name(), false, category());
 
             resetForm();
             closeModal();
@@ -240,6 +245,8 @@ export const ConfigureBlocklistModal = (props: Props) => {
             class={s.formGroup}
             name={name()}
             url={url()}
+            category={category()}
+            onCategoryChange={setCategory}
             nameError={nameError()}
             urlError={urlError()}
             onNameChange={handleNameChange}

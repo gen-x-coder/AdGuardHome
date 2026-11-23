@@ -59,7 +59,7 @@ const openAddBlocklistManualTab = () => {
 };
 
 const openEditBlocklistModal = (
-    filterToEdit: { name: string; url: string; enabled?: boolean } = blocklist,
+    filterToEdit: { name: string; url: string; enabled?: boolean; category?: 'default' | 'security' | 'parental' } = blocklist,
 ) => {
     openModal(MODAL_TYPE.EDIT_BLOCKLIST);
     render(() => (
@@ -109,6 +109,7 @@ describe('ConfigureBlocklistModal', () => {
                 name: blocklist.name,
                 url: blocklist.url,
                 whitelist: false,
+                category: 'default',
             }),
         );
     });
@@ -136,6 +137,7 @@ describe('ConfigureBlocklistModal', () => {
                     name: 'Renamed list',
                     url: blocklist.url,
                     enabled: true,
+                    category: 'default',
                 },
                 whitelist: false,
             }),
@@ -155,6 +157,7 @@ describe('ConfigureBlocklistModal', () => {
                     name: 'Renamed list',
                     url: blocklist.url,
                     enabled: false,
+                    category: 'default',
                 },
                 whitelist: false,
             }),
@@ -174,9 +177,44 @@ describe('ConfigureBlocklistModal', () => {
                     name: 'Renamed list',
                     url: blocklist.url,
                     enabled: true,
+                    category: 'default',
                 },
                 whitelist: false,
             }),
         );
     });
+    it('adds a manual blocklist with the selected security category', async () => {
+        openAddBlocklistManualTab();
+        typeInto(copyInDom('name_label'), blocklist.name);
+        typeInto(copyInDom('blocklist_url_file_path'), blocklist.url);
+        fireEvent.change(screen.getByLabelText('Category'), { target: { value: 'security' } });
+        fireEvent.click(screen.getByRole('button', { name: copyInDom('add') }));
+        await vi.waitFor(() =>
+            expect(mocks.apiAddURL).toHaveBeenCalledWith({
+                name: blocklist.name,
+                url: blocklist.url,
+                whitelist: false,
+                category: 'security',
+            }),
+        );
+    });
+
+    it('preserves an existing parental category when editing', async () => {
+        openEditBlocklistModal({ ...blocklist, category: 'parental' });
+        typeInto(copyInDom('name_label'), 'Updated parental list');
+        fireEvent.click(screen.getByRole('button', { name: copyInDom('save') }));
+        await vi.waitFor(() =>
+            expect(mocks.apiSetURL).toHaveBeenCalledWith({
+                url: blocklist.url,
+                data: {
+                    name: 'Updated parental list',
+                    url: blocklist.url,
+                    enabled: true,
+                    category: 'parental',
+                },
+                whitelist: false,
+            }),
+        );
+    });
+
 });
