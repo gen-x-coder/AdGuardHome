@@ -72,10 +72,6 @@ See also the [v1.0.0 GitHub milestone][ms-v1.0.0].
 
 - Go version has been updated to mitigate the possibility of exploiting the Go vulnerabilities fixed in [1.27.4][go-1.27.4].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The default upstream and bootstrap addresses have been changed from Quad9 to Cloudflare DNS, since Quad9 is adding geography-based restrictions ([#8686]).
@@ -251,10 +247,6 @@ See also the [v0.107.79 GitHub milestone][ms-v0.107.79].
 
 - The user is able to remove the static lease's hostname via the HTTP API.
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The `edge` channel has been switched to the new UI and versioning scheme.
@@ -306,10 +298,6 @@ See also the [v0.107.78 GitHub milestone][ms-v0.107.78].
 ### Added
 
 - Improved updater logging to give users more insight into the problem with version updating ([#8410]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -365,10 +353,6 @@ See also the [v0.107.76 GitHub milestone][ms-v0.107.76].
 
     This is GHSA-73vv-3434-p64c.  We thank @N0zoM1z0 for reporting this security issue.
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Duration values in YAML configuration file now support `d` (days) units and has been updated.
@@ -394,10 +378,6 @@ See also the [v0.107.75 GitHub milestone][ms-v0.107.75].
 - IDs of requests received over DoH and DoQ and forwarded to plain-DNS upstreams are now set to non-zero values to improve security.
 
     This is GHSA-xgx4-4h9w-53pv.  We thank @N0zoM1z0 for reporting this security issue.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -436,10 +416,6 @@ See also the [v0.107.74 GitHub milestone][ms-v0.107.74].
 - Frontend libraries has been updated to prevent the possibility of exploiting the vulnerability described in [CVE-2026-40175][cve-2026-40175].
 
 - Go version has been updated to prevent the possibility of exploiting the Go vulnerabilities fixed in [1.26.2][go-1.26.2].
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -518,10 +494,6 @@ See also the [v0.107.72 GitHub milestone][ms-v0.107.72].
 
 - New field `"ignored_enabled"` in `GetStatsConfigResponse` or `GetQueryLogConfigResponse`.  See `openapi/openapi.yaml` for details.
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - In addition to modifying the contents of a hosts file, deleting or renaming the file now also updates runtime clients and DNS filtering results.
@@ -574,10 +546,6 @@ In this release, the schema version has changed from 32 to 33.
 
 See also the [v0.107.71 GitHub milestone][ms-v0.107.71].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Stale records in optimistic DNS cache now have an upper age limit controlled by `dns.cache_optimistic_max_age`.  The default value is 12 hours.
@@ -628,10 +596,6 @@ See also the [v0.107.70 GitHub milestone][ms-v0.107.70].
 
 - New field `"start_time"` in the `GET /control/status` response.
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Stale records in optimistic DNS cache now have an upper age limit of 12 hours.
@@ -648,10 +612,6 @@ See also the [v0.107.70 GitHub milestone][ms-v0.107.70].
 ## [v0.107.69] - 2025-10-30
 
 See also the [v0.107.69 GitHub milestone][ms-v0.107.69].
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -689,10 +649,6 @@ See also the [v0.107.68 GitHub milestone][ms-v0.107.68].
 - New DNS rewrite settings endpoints `GET /control/rewrite/settings` and `PUT /control/rewrite/settings/update` ([#1765]).  See `openapi/openapi.yaml` for details.
 
 - New fields `"groups"` and `"group_id"` added to the HTTP API (`GET /control/blocked_services/all`).  See `openapi/openapi.yaml` for the full description.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -741,10 +697,6 @@ See also the [v0.107.67 GitHub milestone][ms-v0.107.67].
 
 - Support for configuring the suggested default HTTP port for the installation wizard via the `ADGUARD_HOME_DEFAULT_WEB_PORT` environment variable (useful for vendors).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Optimized matching of filtering rules.
@@ -767,10 +719,6 @@ See also the [v0.107.66 GitHub milestone][ms-v0.107.66].
 ### Security
 
 - Go version has been updated to prevent the possibility of exploiting the Go vulnerabilities fixed in [1.25.1][go-1.25.1].
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -806,10 +754,6 @@ See also the [v0.107.65 GitHub milestone][ms-v0.107.65].
 - A separate checkbox in the Web UI to enable or disable the global DNS response cache without losing the configured cache size.
 
 - A new `"cache_enabled"` field to the HTTP API (`GET /control/dns_info` and `POST /control/dns_config`).  See `openapi/openapi.yaml` for the full description.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -926,10 +870,6 @@ See also the [v0.107.60 GitHub milestone][ms-v0.107.60].
 
 - Go version has been updated to prevent the possibility of exploiting the Go vulnerabilities fixed in [1.24.2][go-1.24.2].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Alpine Linux version in `Dockerfile` has been updated to 3.21 ([#7588]).
@@ -1019,10 +959,6 @@ See also the [v0.107.57 GitHub milestone][ms-v0.107.57].
 
 - The ability to specify the upstream timeout in the Web UI.
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The *Fastest IP address* upstream mode now correctly collects statistics for all upstream DNS servers.
@@ -1105,10 +1041,6 @@ See also the [v0.107.54 GitHub milestone][ms-v0.107.54].
 
 - Incorrect handling of sensitive files permissions on Windows ([#7314]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Improved filtering performance ([#6818]).
@@ -1150,10 +1082,6 @@ See also the [v0.107.53 GitHub milestone][ms-v0.107.53].
 - Support for 64-bit RISC-V architecture ([#5704]).
 
 - Ecosia search engine is now supported in safe search ([#5009]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -1210,10 +1138,6 @@ See also the [v0.107.52 GitHub milestone][ms-v0.107.52].
 
 - The ability to disable logging using the new `log.enabled` configuration property ([#7079]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Frontend rewritten in TypeScript.
@@ -1257,10 +1181,6 @@ See also the [v0.107.51 GitHub milestone][ms-v0.107.51].
 
 - Go version has been updated to prevent the possibility of exploiting the Go vulnerabilities fixed in [Go 1.22.4][go-1.22.4].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The HTTP server’s write timeout has been increased from 1 minute to 5 minutes to match the one used by AdGuard Home’s HTTP client to fetch filtering-list data ([#7041]).
@@ -1293,10 +1213,6 @@ See also the [v0.107.49 GitHub milestone][ms-v0.107.49].
 ### Added
 
 - Support for comments in the ipset file ([#5345]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -1363,10 +1279,6 @@ See also the [v0.107.47 GitHub milestone][ms-v0.107.47].
 
 - Go version has been updated to prevent the possibility of exploiting the Go vulnerabilities fixed in [Go 1.22.2][go-1.22.2].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Time Zone Database is now embedded in the binary ([#6758]).
@@ -1409,10 +1321,6 @@ See also the [v0.107.46 GitHub milestone][ms-v0.107.46].
 
 - Ability to define custom directories for storage of query log files and statistics ([#5992]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Private rDNS resolution (`dns.use_private_ptr_resolvers` in YAML configuration) now requires a valid "Private reverse DNS servers", when enabled ([#6820]).
@@ -1447,10 +1355,6 @@ See also the [v0.107.45 GitHub milestone][ms-v0.107.45].
 ### Added
 
 - Context menu item in the Query Log to add a Client to the Persistent client list ([#6679]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -1502,10 +1406,6 @@ See also the [v0.107.44 GitHub milestone][ms-v0.107.44].
 - The schema version of the configuration file to the output of running `AdGuardHome` (or `AdGuardHome.exe`) with `-v --version` command-line options ([#6545]).
 
 - Ability to disable plain-DNS serving via UI if an encrypted protocol is already used ([#1660]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -1606,10 +1506,6 @@ See also the [v0.107.42 GitHub milestone][ms-v0.107.42].
 
 - Ability to specify rate limiting settings in the Web UI ([#6369]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 #### Configuration changes
@@ -1651,10 +1547,6 @@ See also the [v0.107.41 GitHub milestone][ms-v0.107.41].
 - Ability to specify subnet lengths for IPv4 and IPv6 addresses, used for rate limiting requests, in the configuration file ([#6368]).
 
 - Ability to specify multiple domain specific upstreams per line, e.g.  `[/domain1/../domain2/]upstream1 upstream2 .. upstreamN` ([#4977]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -1701,10 +1593,6 @@ See also the [v0.107.41 GitHub milestone][ms-v0.107.41].
 
 See also the [v0.107.40 GitHub milestone][ms-v0.107.40].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - *Block* and *Unblock* buttons of the query log moved to the tooltip menu ([#684]).
@@ -1740,10 +1628,6 @@ See also the [v0.107.39 GitHub milestone][ms-v0.107.39].
 - Ability to edit static leases on *DHCP settings* page ([#1700]).
 
 - Ability to specify for how long clients should cache a filtered response, using the *Blocked response TTL* field on the *DNS settings* page ([#4569]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -1820,10 +1704,6 @@ See also the [v0.107.37 GitHub milestone][ms-v0.107.37].
 - Two new metrics showing total number of responses from each upstream DNS server and their average processing time in the Web UI ([#1453]).
 
 - The ability to set the port for the `pprof` debug API, see configuration changes below.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -1987,10 +1867,6 @@ See also the [v0.107.36 GitHub milestone][ms-v0.107.36].
 
 See also the [v0.107.35 GitHub milestone][ms-v0.107.35].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Improved reliability filtering-rule list updates on Unix systems.
@@ -2021,10 +1897,6 @@ See also the [v0.107.34 GitHub milestone][ms-v0.107.34].
 ### Added
 
 - Ability to ignore queries for the root domain, such as `NS .` queries ([#5990]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -2095,10 +1967,6 @@ See also the [v0.107.33 GitHub milestone][ms-v0.107.33].
 - The ability to set inactivity periods for filtering blocked services, both globally and per client, in the configuration file ([#951]).  The UI changes are coming in the upcoming releases.
 
 - The ability to edit rewrite rules via `PUT /control/rewrite/update` HTTP API and the Web UI ([#1577]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -2279,10 +2147,6 @@ See also the [v0.107.29 GitHub milestone][ms-v0.107.29].
 
 - The ability to exclude client activity from the query log or statistics by editing client’s settings on the respective page in the UI ([#1717], [#4299]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Stored DHCP leases moved from `leases.db` to `data/leases.json`.  The file format has also been optimized.
@@ -2331,10 +2195,6 @@ See also the [v0.107.28 GitHub milestone][ms-v0.107.28].
 - The ability to set custom IP for EDNS Client Subnet by using the DNS-server configuration section on the DNS settings page in the UI ([#1472]).
 
 - The ability to manage Safe Search for each service by using the new `safe_search` property ([#1163]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -2460,10 +2320,6 @@ See also the [v0.107.26 GitHub milestone][ms-v0.107.26].
 
 - The ability to use `dnstype` rules in the disallowed domains list ([#5468]).  This allows dropping requests based on their question types.
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 #### Configuration changes
@@ -2539,10 +2395,6 @@ See also the [v0.107.24 GitHub milestone][ms-v0.107.24].
 - The ability to disable statistics by using the new `statistics.enabled` property.  Previously it was necessary to set the `statistics_interval` to 0, losing the previous value ([#1717], [#4299]).
 
 - The ability to exclude domain names from the query log or statistics by using the new `querylog.ignored` or `statistics.ignored` properties ([#1717], [#4299]).  The UI changes are coming in the upcoming releases.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -2648,10 +2500,6 @@ See also the [v0.107.22 GitHub milestone][ms-v0.107.22].
 
 - The new HTTP API `PUT /control/profile/update`, that updates current user language and UI theme.  The format of request body is described in `openapi/openapi.yaml`.
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The HTTP API `GET /control/profile` now returns enhanced object with current user’s name, language, and UI theme.  The format of response body is described in `openapi/openapi.yaml` and `openapi/CHANGELOG.md`.
@@ -2679,10 +2527,6 @@ See also the [v0.107.22 GitHub milestone][ms-v0.107.22].
 
 See also the [v0.107.21 GitHub milestone][ms-v0.107.21].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The URLs of the default filters for new installations are synchronized to those introduced in v0.107.20 ([#5238]).
@@ -2709,10 +2553,6 @@ See also the [v0.107.20 GitHub milestone][ms-v0.107.20].
 ### Added
 
 - The ability to clear the DNS cache ([#5190]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -2746,10 +2586,6 @@ See also the [v0.107.19 GitHub milestone][ms-v0.107.19].
 - The ability to block popular Mastodon instances ([AdguardTeam/HostlistsRegistry#100]).
 
 - The new `--update` command-line option, which allows updating AdGuard Home silently ([#4223]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -2794,10 +2630,6 @@ See also the [v0.107.17 GitHub milestone][ms-v0.107.17].
 - The ability to serve DNS on link-local IPv6 addresses ([#2926]).
 
 - The ability to put [ClientIDs][clientid] into DNS-over-HTTPS hostnames as opposed to URL paths ([#3418]).  Note that AdGuard Home checks the server name only if the URL does not contain a ClientID.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -2936,10 +2768,6 @@ See also the [v0.107.13 GitHub milestone][ms-v0.107.13].
 
 - The new optional `dns.ipset_file` property, which can be set in the configuration file.  It allows loading the `ipset` list from a file, just like `dns.upstream_dns_file` does for upstream servers ([#4686]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The minimum DHCP message size is reassigned back to BOOTP’s constraint of 300 bytes ([#4904]).
@@ -2971,10 +2799,6 @@ See also the [v0.107.12 GitHub milestone][ms-v0.107.12].
     **NOTE:** This modifier affects all the parameters in the response and not only the requested ones.
 
 - A new HTTP API, `GET /control/blocked_services/services`, that lists all available blocked services ([#4535]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -3022,10 +2846,6 @@ See also the [v0.107.11 GitHub milestone][ms-v0.107.11].
 
 - Bilibili service blocking ([#4795]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - DNS-over-QUIC connections now use keepalive.
@@ -3048,10 +2868,6 @@ See also the [v0.107.10 GitHub milestone][ms-v0.107.10].
 - Arabic localization.
 
 - Support for Discovery of Designated Resolvers (DDR) according to the [RFC draft][ddr-draft] ([#4463]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -3086,10 +2902,6 @@ See also the [v0.107.9 GitHub milestone][ms-v0.107.9].
 - Domain-specific upstream servers test.  If such test fails, a warning message is shown ([#4517]).
 
 - `windows/arm64` support ([#3057]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -3169,10 +2981,6 @@ See also the [v0.107.7 GitHub milestone][ms-v0.107.7].
 - Support for hostnames for plain UDP upstream servers using the `udp://` scheme ([#4166]).
 
 - Logs are now collected by default on FreeBSD and OpenBSD when AdGuard Home is installed as a service ([#4213]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -3304,10 +3112,6 @@ See also the [v0.107.6 GitHub milestone][ms-v0.107.6].
 
 - Support for SVCB/HTTPS parameter `dohpath` in filtering rules with the `dnsrewrite` modifier according to the [RFC draft][dns-draft-02] ([#4463]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Filtering rules with the `dnsrewrite` modifier that create SVCB or HTTPS responses should use `ech` instead of `echconfig` to conform with the [latest drafts][svcb-draft-08].
@@ -3416,10 +3220,6 @@ See also the [v0.107.2 GitHub milestone][ms-v0.107.2].
 
 See also the [v0.107.1 GitHub milestone][ms-v0.107.1].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - The validation error message for duplicated allow- and blocklists in DNS settings now shows the duplicated elements ([#3975]).
@@ -3497,10 +3297,6 @@ See also the [v0.107.0 GitHub milestone][ms-v0.107.0].
 - The ability to completely disable reverse DNS resolving of IPs from locally-served networks ([#3184]).
 
 - New flag `--local-frontend` to serve dynamically changeable frontend files from disk as opposed to the ones that were compiled into the binary.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -3736,10 +3532,6 @@ See also the [v0.106.3 GitHub milestone][ms-v0.106.3].
 
 - Support for DHCP `DECLINE` and `RELEASE` message types ([#3053]).
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Add microseconds to log output.
@@ -3830,10 +3622,6 @@ See also the [v0.106.0 GitHub milestone][ms-v0.106.0].
 - `ips` and `text` DHCP server options ([#2385]).
 
 - `SRV` records support in filtering rules with the `dnsrewrite` modifier ([#2533]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -3951,10 +3739,6 @@ See also the [v0.105.2 GitHub milestone][ms-v0.105.2].
 
 See also the [v0.105.1 GitHub milestone][ms-v0.105.1].
 
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
-
 ### Changed
 
 - Increased HTTP API timeouts ([#2671], [#2682]).
@@ -4025,10 +3809,6 @@ See also the [v0.105.0 GitHub milestone][ms-v0.105.0].
 - `dnstype` modifier for filters ([#2337]).
 
 - HTTP API request body size limit ([#2305]).
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
@@ -4138,10 +3918,6 @@ See also the [v0.104.2 GitHub milestone][ms-v0.104.2].
 - This changelog :-) ([#2294]).
 
 - `HACKING.md`, a guide for developers.
-
-### Added
-
-- Added configurable reporting categories for DNS blocklists to classify blocked queries in existing statistics counters.
 
 ### Changed
 
